@@ -1,20 +1,29 @@
 #include <SFML/Graphics.hpp>
+#include "math/Vector2D.hpp"
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "sim");
-    while(window.isOpen())
-    {
-        sf::Event event;
-        while(window.pollEvent(event)) {
-            if(event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
 
-        window.clear();
-        window.setFramerateLimit(60);
-        window.display();
-    }
+    Vector2D v1(5, 3);
+    Vector2D v2(4.3, 7.999);
+
+    double angleRad = v1.angleBetween(v2);
+    std::cout << angleRad;
+
+    // while(window.isOpen())
+    // {
+    //     sf::Event event;
+    //     while(window.pollEvent(event)) {
+    //         if(event.type == sf::Event::Closed) {
+    //             window.close();
+    //         }
+    //     }
+
+    //     window.clear();
+    //     window.setFramerateLimit(60);
+    //     window.display();
+    // }
 }
 
 
