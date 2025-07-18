@@ -15,6 +15,10 @@ class Vector2D {
                 return Vector2D(0,0);
             }
 
+            static double getSquaredDistanceBetween(Vector2D vec1, Vector2D vec2) {
+                return (vec1.x - vec2.x) * (vec1.x - vec2.x) + (vec1.y - vec2.y) * (vec1.y - vec2.y);
+            }
+
             double magnitude() const
             {
                 return std::sqrt(x*x + y*y);
@@ -57,6 +61,10 @@ class Vector2D {
                 val = std::min(1.0, val);
                 val = std::max(-1.0, val);
                 return acos(val);
+            }
+
+            sf::Vector2f toSFMLVector() const {
+                return sf::Vector2f(x, y);
             }
 
             friend std::ostream& operator<<(std::ostream& os, const Vector2D& v) {
