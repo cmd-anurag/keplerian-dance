@@ -1,15 +1,19 @@
 #pragma once
 
-// these constants are "trust me bro" so revisions are required
+namespace Constants {
+    // --- SIMULATION UNITS ---
+    // These are the units we will use for all physics calculations.
 
-constexpr double G = 1.0f;      // the universal gravitational constant
+    constexpr double G = 1.0;
 
-constexpr double EARTH_MASS = 1.0f;     // earth's mass taken as 1
-constexpr double SUN_MASS = 333000.0f;  // sun's mass relative to earth's mass
+    constexpr double SUN_MASS = 1.0;
 
-constexpr double WORLD_UNIT_KM = 1e6;   // 1 world unit = 1 million kms
-constexpr double WORLD_UNIT_TO_PIXELS = 100.0f; // 1 world unit = 100 pixels on screen
+    constexpr double EARTH_MASS = 3.0e-6; // (Actual is ~1/333,000)
 
-constexpr double SECONDS_PER_STEP = 86400.0f; // 1 step in sim equals a day in real life
+    constexpr double AU = 1.0;
 
-constexpr double AU = 149.6f; // 1 AU , distance from sun to earth.
+    // --- TIME ---
+    // How many simulation time units pass in one update step.
+    // This value requires tuning to make the simulation stable and run at a decent speed.
+    constexpr double TIMESTEP = 0.01;
+}

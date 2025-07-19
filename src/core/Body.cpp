@@ -9,7 +9,7 @@ Body::Body()
     mass = 1;
     radius = 1;
     name = "Default Body";
-    setColor(sf::Color::White);
+    color = sf::Color::White;
 }
 
 Body::Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double Mass, double Radius, std::string &Name, sf::Color Colour)
@@ -20,7 +20,7 @@ Body::Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double M
     mass = Mass;
     radius = Radius;
     name = Name;
-    setColor(Colour);
+    color = Colour;
 }
 
 void Body::updatePosition(double dt)
@@ -46,29 +46,12 @@ void Body::resetAcceleration()
 // it calculate the force on THIS body due to the OTHER body ie force which OTHER body exerts on THIS body
 Vector2D Body::calculateGravitationalForce(const Body &other) const
 {
-    
-    double forceMagnitude = (G * mass * other.mass) / (Vector2D::getSquaredDistanceBetween(position, other.position));
+    double squaredDistance = Vector2D::getSquaredDistanceBetween(position, other.position);
+    squaredDistance = std::max(0.01, squaredDistance);
+    double forceMagnitude = (Constants::G * mass * other.mass) / (squaredDistance);
     Vector2D forceDirection = (other.position - position).normalized();
 
     return forceDirection * forceMagnitude;
-}
-
-void Body::updateShape()
-{
-    shape.setRadius(radius);
-    shape.setOrigin(radius, radius);
-    shape.setPosition(position.x, position.y);
-}
-
-void Body::render(sf::RenderWindow &window)
-{
-    window.draw(shape);
-}
-
-void Body::setColor(const sf::Color &color)
-{
-    this->color = color;
-    shape.setFillColor(color);
 }
 
 void Body::addVertexToTrail()
@@ -120,7 +103,7 @@ double Body::potentialEnergy(const Body& other) const
     double distance = (position - other.position).magnitude();
     if(distance == 0) return 0.0;
 
-    return -G * mass * other.mass / distance;
+    return -Constants::G * mass * other.mass / distance;
 }
 
 bool Body::isInView(const sf::View &view) const

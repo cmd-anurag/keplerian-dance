@@ -1,29 +1,35 @@
 #include <SFML/Graphics.hpp>
 #include "math/Vector2D.hpp"
+#include "graphics/Camera.hpp"
+#include "graphics/Renderer.hpp"
+#include "core/Simulation.hpp"
+#include "core/Constants.hpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "sim");
+    window.setFramerateLimit(60);
 
-    Vector2D v1(5, 3);
-    Vector2D v2(4.3, 7.999);
+    Simulation simulation;
+    Camera camera;
+    Renderer renderer(window, camera);
 
-    double angleRad = v1.angleBetween(v2);
-    std::cout << angleRad;
+    camera.setZoom(400.0f);
 
-    // while(window.isOpen())
-    // {
-    //     sf::Event event;
-    //     while(window.pollEvent(event)) {
-    //         if(event.type == sf::Event::Closed) {
-    //             window.close();
-    //         }
-    //     }
+    while(window.isOpen())
+    {
+        sf::Event event;
+        while(window.pollEvent(event)) 
+        {
+            if(event.type == sf::Event::Closed) window.close();
+        }
 
-    //     window.clear();
-    //     window.setFramerateLimit(60);
-    //     window.display();
-    // }
+        simulation.update(Constants::TIMESTEP);
+        renderer.draw(simulation.getBodies());
+    }
+
+    return 0;
+
 }
 
 

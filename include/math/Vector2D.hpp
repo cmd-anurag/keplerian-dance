@@ -2,6 +2,7 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 class Vector2D {
         public:

@@ -7,7 +7,6 @@
 class Body {
     private:
         sf::VertexArray trail {sf::LineStrip};
-        sf::Color color;
 
     public:
         Vector2D position;
@@ -17,7 +16,7 @@ class Body {
         double radius;
         
         std::string name;
-        sf::CircleShape shape;
+        sf::Color color;
 
         Body();
         Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double Mass, double Radius, std::string &Name, sf::Color Colour);
@@ -28,11 +27,6 @@ class Body {
         void applyForce(const Vector2D &force);
         void resetAcceleration();
         Vector2D calculateGravitationalForce(const Body& other) const;
-
-        // visual stuff.
-        void updateShape();
-        void render(sf::RenderWindow &window);
-        void setColor(const sf::Color &color);
 
         // trails.
         void addVertexToTrail();
