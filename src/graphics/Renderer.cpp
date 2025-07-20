@@ -7,7 +7,7 @@ void Renderer::draw(const std::vector<Body> &bodies)
 {
     window.clear();
     
-    float pixelsPerWorldUnit = camera.getZoom();
+    float pixelsPerWorldUnit = camera.getScale() * camera.getZoom();
 
     for(const auto &body : bodies)
     {
@@ -27,7 +27,7 @@ void Renderer::draw(const std::vector<Body> &bodies)
 
 sf::Vector2f Renderer::worldToScreen(const Vector2D &worldPosition)
 {
-    float pixelsPerWorldUnit = camera.getZoom();
+    float pixelsPerWorldUnit = camera.getScale() * camera.getZoom();
 
     float screenX = worldPosition.x * pixelsPerWorldUnit;
     float screenY = worldPosition.y * pixelsPerWorldUnit;

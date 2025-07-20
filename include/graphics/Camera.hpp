@@ -11,8 +11,12 @@ class Camera {
         void setZoom(float zoom);
         float getZoom() const;
 
+        void setScale(float scale);
+        float getScale() const;
+
     private:
-        float zoom;
+        float zoom; 
+        float scale; // no. of pixels in a single world unit.
         Vector2D center;
 };
 

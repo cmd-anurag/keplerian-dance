@@ -3,7 +3,8 @@
 Camera::Camera()
 {
     center = Vector2D(0.0f, 0.0f);
-    zoom = 100.0f;
+    zoom = 1.0f;
+    scale = 100.0f;
 }
 
 void Camera::setCenter(const Vector2D &position)
@@ -25,4 +26,13 @@ float Camera::getZoom() const
 {
 
     return this->zoom;
+}
+
+void Camera::setScale(float scale)
+{
+    this->scale = scale;
+}
+
+float Camera::getScale() const {
+    return scale;
 }
