@@ -14,6 +14,8 @@ class Camera {
         void setScale(float scale);
         float getScale() const;
 
+        void move(const Vector2D& offset);
+
     private:
         float zoom; 
         float scale; // no. of pixels in a single world unit.

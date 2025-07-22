@@ -36,3 +36,8 @@ void Camera::setScale(float scale)
 float Camera::getScale() const {
     return scale;
 }
+
+void Camera::move(const Vector2D& offset)
+{
+    center += offset;
+}
