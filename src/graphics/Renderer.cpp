@@ -1,39 +1,32 @@
 #include "graphics/Renderer.hpp"
 #include "core/Constants.hpp"
 
-Renderer::Renderer(sf::RenderWindow &window, const Camera &camera) : window(window), camera(camera) {};
+Renderer::Renderer(sf::RenderWindow &window) : window(window) {};
 
-void Renderer::draw(const std::vector<Body> &bodies)
+void Renderer::draw(const std::vector<Body> &bodies, Camera &camera)
 {
-    window.clear();
     
+    view.setCenter(camera.getCenter().toSFMLVector());
+
     float pixelsPerWorldUnit = camera.getScale() * camera.getZoom();
 
+    view.setSize(
+        static_cast<float>(window.getSize().x) / pixelsPerWorldUnit,
+        static_cast<float>(window.getSize().y) / pixelsPerWorldUnit
+    );
+
+    window.setView(view);
+    
+    window.clear();
     for(const auto &body : bodies)
     {
-        float visualRadius = body.radius * pixelsPerWorldUnit;
-        visualRadius = std::max(2.0f, visualRadius);
-        sf::Vector2f screemPosition = worldToScreen(body.position);
-
-        sf::CircleShape shape(visualRadius);
-        shape.setOrigin(visualRadius, visualRadius);
+        sf::CircleShape shape(body.radius);
+        shape.setOrigin(body.radius, body.radius);
         shape.setFillColor(body.color);
-        shape.setPosition(screemPosition);
-
+        shape.setPosition(body.position.x, body.position.y);
         window.draw(shape);
     }
+
+    window.setView(window.getDefaultView());
     window.display();
-}
-
-sf::Vector2f Renderer::worldToScreen(const Vector2D &worldPosition)
-{
-    float pixelsPerWorldUnit = camera.getScale() * camera.getZoom();
-
-    float screenX = worldPosition.x * pixelsPerWorldUnit;
-    float screenY = worldPosition.y * pixelsPerWorldUnit;
-
-    screenX += window.getSize().x / 2.0f;
-    screenY += window.getSize().y / 2.0f;
-
-    return sf::Vector2f(screenX, screenY);
 }

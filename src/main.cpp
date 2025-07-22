@@ -13,17 +13,18 @@ int main()
 
     Simulation simulation;
     Camera camera;
-    Renderer renderer(window, camera);
+    Renderer renderer(window);
     InputHandler inputHandler;
 
     // TODO - rather than using a total scratch implementation of Camera, use sf::View and refactor the codebase
+    // done
 
     while(window.isOpen())
     {
         inputHandler.handleInputs(window, camera);
 
         simulation.update(Constants::TIMESTEP);
-        renderer.draw(simulation.getBodies());
+        renderer.draw(simulation.getBodies(), camera);
     }
 
     return 0;
