@@ -24,6 +24,7 @@ void Renderer::draw(const std::vector<Body> &bodies, Camera &camera)
         shape.setOrigin(body.radius, body.radius);
         shape.setFillColor(body.color);
         shape.setPosition(body.position.x, body.position.y);
+        window.draw(body.getTrail());
         window.draw(shape);
     }
 

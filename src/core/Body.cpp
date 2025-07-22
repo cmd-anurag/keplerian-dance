@@ -23,14 +23,12 @@ Body::Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double M
     color = Colour;
 }
 
-void Body::updatePosition(double dt)
-{
-    position += velocity * dt;
-}
-
-void Body::updateVelocity(double dt)
+void Body::update(double dt)
 {
     velocity += acceleration * dt;
+    position += velocity * dt;
+    addVertexToTrail();
+    popVertexFromTrail();
 }
 
 void Body::applyForce(const Vector2D &force)
@@ -75,11 +73,10 @@ void Body::popVertexFromTrail()
     }
 }
 
-void Body::renderTrail(sf::RenderWindow &window)
+const sf::VertexArray &Body::getTrail() const
 {
-    window.draw(trail);
+    return trail;
 }
-
 bool Body::isColliding(const Body &other) const
 {
     double squaredDistance = Vector2D::getSquaredDistanceBetween(position, other.position);

@@ -19,6 +19,8 @@ int main()
     // TODO - rather than using a total scratch implementation of Camera, use sf::View and refactor the codebase
     // done
 
+    // TODO - optimize trail management
+
     while(window.isOpen())
     {
         inputHandler.handleInputs(window, camera);

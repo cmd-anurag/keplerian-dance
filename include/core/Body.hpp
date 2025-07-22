@@ -22,8 +22,7 @@ class Body {
         Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double Mass, double Radius, std::string &Name, sf::Color Colour);
 
         // physics methods.
-        void updatePosition(double dt);
-        void updateVelocity(double dt);
+        void update(double dt);
         void applyForce(const Vector2D &force);
         void resetAcceleration();
         Vector2D calculateGravitationalForce(const Body& other) const;
@@ -31,7 +30,7 @@ class Body {
         // trails.
         void addVertexToTrail();
         void popVertexFromTrail();
-        void renderTrail(sf::RenderWindow &window);
+        const sf::VertexArray& getTrail() const;
 
         // collisions.
         bool isColliding(const Body &other) const;
