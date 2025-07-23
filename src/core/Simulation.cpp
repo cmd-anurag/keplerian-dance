@@ -15,6 +15,24 @@ Simulation::Simulation()
     sun.position = {0,0};
     sun.radius = 0.15; // radius is just for visuals and not accurate to reality
 
+    Body mercury;
+    mercury.name = "Mercury";
+    mercury.texture = &assetManager.getTexture("../assets/sprites/mercury.png");
+    mercury.mass = MERCURY_MASS;
+    auto [mercuryPosition, mercuryVelocity] = Utils::calculateOrbitalVelocity(MERCURY_SEMI_MAJOR_AXIS, MERCURY_ECCENTRICITY);
+    mercury.position = mercuryPosition;
+    mercury.velocity = -mercuryVelocity;
+    mercury.radius = 0.04;
+
+    Body venus;
+    venus.name = "Venus";
+    venus.texture = &assetManager.getTexture("../assets/sprites/venus.png");
+    venus.mass = VENUS_MASS;
+    auto [venusPosition, venusVelocity] = Utils::calculateOrbitalVelocity(VENUS_SEMI_MAJOR_AXIS, VENUS_ECCENTRICITY);
+    venus.position = venusPosition;
+    venus.velocity = -venusVelocity;
+    venus.radius = 0.06;
+
     Body earth;
     earth.name = "Terra";
     earth.texture = &assetManager.getTexture("../assets/sprites/earth.png");
@@ -33,9 +51,51 @@ Simulation::Simulation()
     mars.velocity = -marsVelocity;
     mars.radius = 0.06;
 
+    Body jupiter;
+    jupiter.name = "Jupiter";
+    jupiter.texture = &assetManager.getTexture("../assets/sprites/jupiter.png");
+    jupiter.mass = JUPITER_MASS;
+    auto [jupiterPosition, jupiterVelocity] = Utils::calculateOrbitalVelocity(JUPITER_SEMI_MAJOR_AXIS, JUPITER_ECCENTRICITY);
+    jupiter.position = jupiterPosition;
+    jupiter.velocity = -jupiterVelocity;
+    jupiter.radius = 0.2;
+
+    Body saturn;
+    saturn.name = "Saturn";
+    saturn.texture = &assetManager.getTexture("../assets/sprites/saturn.png");
+    saturn.mass = SATURN_MASS;
+    auto [saturnPosition, saturnVelocity] = Utils::calculateOrbitalVelocity(SATURN_SEMI_MAJOR_AXIS, SATURN_ECCENTRICITY);
+    saturn.position = saturnPosition;
+    saturn.velocity = -saturnVelocity;
+    saturn.radius = 0.18;
+
+    Body uranus;
+    uranus.name = "Uranus";
+    uranus.texture = &assetManager.getTexture("../assets/sprites/uranus.png");
+    uranus.mass = URANUS_MASS;
+    auto [uranusPosition, uranusVelocity] = Utils::calculateOrbitalVelocity(URANUS_SEMI_MAJOR_AXIS, URANUS_ECCENTRICITY);
+    uranus.position = uranusPosition;
+    uranus.velocity = -uranusVelocity;
+    uranus.radius = 0.15;
+
+    Body neptune;
+    neptune.name = "Neptune";
+    neptune.texture = &assetManager.getTexture("../assets/sprites/neptune.png");
+    neptune.mass = NEPTUNE_MASS;
+    auto [neptunePosition, neptuneVelocity] = Utils::calculateOrbitalVelocity(NEPTUNE_SEMI_MAJOR_AXIS, NEPTUNE_ECCENTRICITY);
+    neptune.position = neptunePosition;
+    neptune.velocity = -neptuneVelocity;
+    neptune.radius = 0.15;
+
     bodies.push_back(sun);
+    bodies.push_back(mercury);
+    bodies.push_back(venus);
     bodies.push_back(earth);
     bodies.push_back(mars);
+    bodies.push_back(jupiter);
+    bodies.push_back(saturn);
+    bodies.push_back(uranus);
+    bodies.push_back(neptune);
 }
 
 void Simulation::update(double dt)
