@@ -9,7 +9,6 @@ Body::Body()
     mass = 1;
     radius = 1;
     name = "Default Body";
-    color = sf::Color::White;
 }
 
 Body::Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double Mass, double Radius, std::string &Name, sf::Color Colour)
@@ -20,15 +19,14 @@ Body::Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double M
     mass = Mass;
     radius = Radius;
     name = Name;
-    color = Colour;
 }
 
 void Body::update(double dt)
 {
     velocity += acceleration * dt;
     position += velocity * dt;
-    addVertexToTrail();
-    popVertexFromTrail();
+    // addVertexToTrail();
+    // popVertexFromTrail();
 }
 
 void Body::applyForce(const Vector2D &force)

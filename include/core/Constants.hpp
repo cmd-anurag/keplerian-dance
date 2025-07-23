@@ -9,6 +9,7 @@ namespace Constants {
     constexpr double SUN_MASS = 1.0;
 
     constexpr double EARTH_MASS = 3.0e-6; // (Actual is ~1/333,000)
+    constexpr double MARS_MASS = 0.107 * EARTH_MASS;
 
     constexpr double AU = 1.0;
 

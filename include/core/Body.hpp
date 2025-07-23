@@ -16,7 +16,7 @@ class Body {
         double radius;
         
         std::string name;
-        sf::Color color;
+        sf::Texture* texture = nullptr;
 
         Body();
         Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double Mass, double Radius, std::string &Name, sf::Color Colour);
