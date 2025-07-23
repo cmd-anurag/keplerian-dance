@@ -17,6 +17,11 @@ void Renderer::draw(const std::vector<Body> &bodies, Camera &camera)
     window.clear();
     for(const auto &body : bodies)
     {
+        body.getTrail().draw(window);
+
+        // view culling only for planets
+        if(!body.isInView(view)) continue;
+
         sf::CircleShape shape(body.radius);
         shape.setOrigin(body.radius, body.radius);
         shape.setPosition(body.position.x, body.position.y);
@@ -28,7 +33,7 @@ void Renderer::draw(const std::vector<Body> &bodies, Camera &camera)
             shape.setFillColor(sf::Color::Magenta); // missing textures
         }
 
-        window.draw(body.getTrail());
+        
         window.draw(shape);
     }
 

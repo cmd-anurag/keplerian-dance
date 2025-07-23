@@ -10,6 +10,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "sim");
     window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
 
     Simulation simulation;
     Camera camera;
@@ -20,6 +21,7 @@ int main()
     // done
 
     // TODO - optimize trail management
+    // done
 
     while(window.isOpen())
     {

@@ -25,8 +25,7 @@ void Body::update(double dt)
 {
     velocity += acceleration * dt;
     position += velocity * dt;
-    addVertexToTrail();
-    popVertexFromTrail();
+    trail.addVertex(position);
 }
 
 void Body::applyForce(const Vector2D &force)
@@ -50,31 +49,13 @@ Vector2D Body::calculateGravitationalForce(const Body &other) const
     return forceDirection * forceMagnitude;
 }
 
-void Body::addVertexToTrail()
-{
-    trail.append(sf::Vertex(position.toSFMLVector(), sf::Color::White));
-}
 
-void Body::popVertexFromTrail()
-{
-    // optimize this later by using a fixed size circular buffer
-    if(trail.getVertexCount() > 1500)
-    {
-        sf::VertexArray newTrail {sf::LineStrip};
 
-        for(size_t i = 1; i < trail.getVertexCount(); ++i) 
-        {
-            newTrail.append(trail[i]);
-        }
-
-        trail = std::move(newTrail);
-    }
-}
-
-const sf::VertexArray &Body::getTrail() const
+const OrbitTrail& Body::getTrail() const
 {
     return trail;
 }
+
 bool Body::isColliding(const Body &other) const
 {
     double squaredDistance = Vector2D::getSquaredDistanceBetween(position, other.position);

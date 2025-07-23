@@ -1,12 +1,13 @@
 #pragma once
 #include "math/Vector2D.hpp"
+#include "graphics/OrbitTrail.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
 // a celestial body
 class Body {
     private:
-        sf::VertexArray trail {sf::LineStrip};
+        OrbitTrail trail;
 
     public:
         Vector2D position;
@@ -28,9 +29,7 @@ class Body {
         Vector2D calculateGravitationalForce(const Body& other) const;
 
         // trails.
-        void addVertexToTrail();
-        void popVertexFromTrail();
-        const sf::VertexArray& getTrail() const;
+        const OrbitTrail& getTrail() const;
 
         // collisions.
         bool isColliding(const Body &other) const;
