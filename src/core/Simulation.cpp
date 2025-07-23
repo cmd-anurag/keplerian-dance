@@ -1,5 +1,6 @@
 #include "core/Simulation.hpp"
 #include "core/Constants.hpp"
+#include "math/Utils.hpp"
 #include <iostream>
 
 Simulation::Simulation()
@@ -18,16 +19,18 @@ Simulation::Simulation()
     earth.name = "Terra";
     earth.texture = &assetManager.getTexture("../assets/sprites/earth.png");
     earth.mass = EARTH_MASS;
-    earth.position = {AU, 0.0};
-    earth.velocity = {0.0, 1.0};
+    auto [earthPosition, earthVelocity] = Utils::calculateOrbitalVelocity(EARTH_SEMI_MAJOR_AXIS, EARTH_ECCENTRICITY);
+    earth.position = earthPosition;
+    earth.velocity = -earthVelocity;
     earth.radius = 0.07; // radius is just for visuals and not accurate to reality
 
     Body mars;
     mars.name = "Mars";
     mars.texture = &assetManager.getTexture("../assets/sprites/mars.png");
     mars.mass = MARS_MASS;
-    mars.position = {AU * 1.524, 0.0};
-    mars.velocity = {0.0, 0.810041};
+    auto [marsPosition, marsVelocity] = Utils::calculateOrbitalVelocity(MARS_SEMI_MAJOR_AXIS, MARS_ECCENTRICITY);
+    mars.position = marsPosition;
+    mars.velocity = -marsVelocity;
     mars.radius = 0.06;
 
     bodies.push_back(sun);

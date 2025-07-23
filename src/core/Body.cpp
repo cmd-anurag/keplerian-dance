@@ -25,8 +25,8 @@ void Body::update(double dt)
 {
     velocity += acceleration * dt;
     position += velocity * dt;
-    // addVertexToTrail();
-    // popVertexFromTrail();
+    addVertexToTrail();
+    popVertexFromTrail();
 }
 
 void Body::applyForce(const Vector2D &force)
@@ -58,7 +58,7 @@ void Body::addVertexToTrail()
 void Body::popVertexFromTrail()
 {
     // optimize this later by using a fixed size circular buffer
-    if(trail.getVertexCount() > 1000)
+    if(trail.getVertexCount() > 1500)
     {
         sf::VertexArray newTrail {sf::LineStrip};
 
