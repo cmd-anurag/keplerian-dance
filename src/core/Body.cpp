@@ -25,7 +25,7 @@ void Body::update(double dt)
 {
     velocity += acceleration * dt;
     position += velocity * dt;
-    trail.addVertex(position);
+    // trail.addVertex(position); // uncomment for trails
 }
 
 void Body::applyForce(const Vector2D &force)

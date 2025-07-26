@@ -12,8 +12,16 @@ namespace Constants {
 
     // --- TIME ---
     // How many simulation time units pass in one update step.
-    // This value requires tuning to make the simulation stable and run at a decent speed.
     constexpr double TIMESTEP = 0.01;
+    // this is in a made up time unit (simulation time unit) called "blips". 
+    // real world conversions would be , using the orbital period formula T = 2pi root(a^3 / GM), it equals 2pi blips for earth
+    // equating it to 365.25 days I get, 1 blip = 365.25/2pi = 58.13 days
+
+    // In one frame, 0.01 blips pass, at 60 fps in 1 second 0.6 blips pass.
+    // that means every blip,  1.666... seconds pass in the real world
+    // Given the earth takes 2 pi blips to complete its orbit, on screen it takes 2pi * 1.666... = 10.47 seconds.
+
+
 
 
     // Planet Specific Data
@@ -57,9 +65,5 @@ namespace Constants {
     constexpr double NEPTUNE_MASS = 17.15 * EARTH_MASS;
     constexpr double NEPTUNE_SEMI_MAJOR_AXIS = 30.178 * AU;
     constexpr double NEPTUNE_ECCENTRICITY = 0.00867;
-
-
-    
-    // i'll add the data for other planets later
 
 }

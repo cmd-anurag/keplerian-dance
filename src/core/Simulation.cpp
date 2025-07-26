@@ -7,13 +7,15 @@ Simulation::Simulation()
 {
     using namespace Constants;
 
+    // NOTE - Radii for each planets are for visual clarity only and do not reflect their true size, (it would be really hard to see)
+
     Body sun;
     sun.name = "Sol";
     sun.texture = &assetManager.getTexture("../assets/sprites/sun.png");
     sun.mass = SUN_MASS;
     sun.velocity = {0,0};
     sun.position = {0,0};
-    sun.radius = 0.15; // radius is just for visuals and not accurate to reality
+    sun.radius = 0.15;
 
     Body mercury;
     mercury.name = "Mercury";
@@ -40,7 +42,7 @@ Simulation::Simulation()
     auto [earthPosition, earthVelocity] = Utils::calculateOrbitalVelocity(EARTH_SEMI_MAJOR_AXIS, EARTH_ECCENTRICITY);
     earth.position = earthPosition;
     earth.velocity = -earthVelocity;
-    earth.radius = 0.07; // radius is just for visuals and not accurate to reality
+    earth.radius = 0.07;
 
     Body mars;
     mars.name = "Mars";
@@ -58,7 +60,7 @@ Simulation::Simulation()
     auto [jupiterPosition, jupiterVelocity] = Utils::calculateOrbitalVelocity(JUPITER_SEMI_MAJOR_AXIS, JUPITER_ECCENTRICITY);
     jupiter.position = jupiterPosition;
     jupiter.velocity = -jupiterVelocity;
-    jupiter.radius = 0.2;
+    jupiter.radius = 0.3;
 
     Body saturn;
     saturn.name = "Saturn";
@@ -67,7 +69,7 @@ Simulation::Simulation()
     auto [saturnPosition, saturnVelocity] = Utils::calculateOrbitalVelocity(SATURN_SEMI_MAJOR_AXIS, SATURN_ECCENTRICITY);
     saturn.position = saturnPosition;
     saturn.velocity = -saturnVelocity;
-    saturn.radius = 0.18;
+    saturn.radius = 0.6;
 
     Body uranus;
     uranus.name = "Uranus";
@@ -76,7 +78,7 @@ Simulation::Simulation()
     auto [uranusPosition, uranusVelocity] = Utils::calculateOrbitalVelocity(URANUS_SEMI_MAJOR_AXIS, URANUS_ECCENTRICITY);
     uranus.position = uranusPosition;
     uranus.velocity = -uranusVelocity;
-    uranus.radius = 0.15;
+    uranus.radius = 0.4;
 
     Body neptune;
     neptune.name = "Neptune";
@@ -85,7 +87,7 @@ Simulation::Simulation()
     auto [neptunePosition, neptuneVelocity] = Utils::calculateOrbitalVelocity(NEPTUNE_SEMI_MAJOR_AXIS, NEPTUNE_ECCENTRICITY);
     neptune.position = neptunePosition;
     neptune.velocity = -neptuneVelocity;
-    neptune.radius = 0.15;
+    neptune.radius = 0.4;
 
     bodies.push_back(sun);
     bodies.push_back(mercury);
