@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "math/Vector2D.hpp"
 
-constexpr size_t MAX_BUFFER_SIZE = 2000;
+constexpr size_t MAX_BUFFER_SIZE = 1000;
 
 
 class OrbitTrail {

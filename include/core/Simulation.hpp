@@ -11,6 +11,7 @@ class Simulation {
         void update(double dt);
         
         const std::vector<Body>& getBodies() const;
+        std::vector<Body>& getNonConstBodies();
 
     private:
         std::vector<Body> bodies;

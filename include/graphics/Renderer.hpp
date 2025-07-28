@@ -4,11 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include "graphics/Camera.hpp"
 #include "core/Body.hpp"
+#include "ui/UIManager.hpp"
 
 class Renderer {
     public:
         Renderer(sf::RenderWindow &window);
-        void draw(const std::vector<Body> &bodies, Camera &camera);
+        void drawWorld(const std::vector<Body> &bodies, Camera &camera);
+        void drawUI(const UIManager& uiManager);
 
     private:
         sf::RenderWindow &window;

@@ -23,13 +23,13 @@ class Body {
         Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double Mass, double Radius, std::string &Name, sf::Color Colour);
 
         // physics methods.
-        void update(double dt);
         void applyForce(const Vector2D &force);
         void resetAcceleration();
         Vector2D calculateGravitationalForce(const Body& other) const;
-
+        
         // trails.
         const OrbitTrail& getTrail() const;
+        OrbitTrail& getTrail() { return trail; }
 
         // collisions.
         bool isColliding(const Body &other) const;

@@ -3,7 +3,7 @@
 
 Renderer::Renderer(sf::RenderWindow &window) : window(window) {};
 
-void Renderer::draw(const std::vector<Body> &bodies, Camera &camera)
+void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera)
 {
     float pixelsPerWorldUnit = camera.getScale() * camera.getZoom();
 
@@ -17,7 +17,8 @@ void Renderer::draw(const std::vector<Body> &bodies, Camera &camera)
     window.clear();
     for(const auto &body : bodies)
     {
-        body.getTrail().draw(window);
+        // if(body.name == "Venus")
+        // body.getTrail().draw(window);
 
         // view culling only for planets
         if(!body.isInView(view)) continue;
@@ -38,5 +39,10 @@ void Renderer::draw(const std::vector<Body> &bodies, Camera &camera)
     }
 
     window.setView(window.getDefaultView());
-    window.display();
+
+}
+void Renderer::drawUI(const UIManager &uiManager)
+{
+    window.setView(window.getDefaultView());
+    uiManager.draw(window);
 }

@@ -5,6 +5,10 @@
 #include "core/Simulation.hpp"
 #include "core/Constants.hpp"
 #include "input/InputHandler.hpp"
+#include "ui/UIManager.hpp"
+#include "ui/Panel.hpp"
+#include "ui/Label.hpp"
+#include "ui/PlanetInfoSidebar.hpp"
 
 int main()
 {
@@ -16,19 +20,41 @@ int main()
     Camera camera;
     Renderer renderer(window);
     InputHandler inputHandler;
+    UIManager uiManager;
+    SelectionManager selectionManager;
 
-    // TODO - rather than using a total scratch implementation of Camera, use sf::View and refactor the codebase
-    // done
+    const Body* sun = &simulation.getBodies().front();
 
-    // TODO - optimize trail management
-    // done
+    auto sidebar = std::make_unique<PlanetInfoSidebar>(sf::Vector2f(10.f, 10.f), sf::Vector2f(350.f, 1000.f), selectionManager, sun);
+    uiManager.addElement(std::move(sidebar));
+
+
+    sf::Clock simulClock;
 
     while(window.isOpen())
     {
-        inputHandler.handleInputs(window, camera);
+        sf::Time dt = simulClock.restart();
+
+        sf::Event event;
+        while(window.pollEvent(event))
+        {
+            uiManager.handleEvent(event, window);
+            inputHandler.handleEvent(event, window, camera, simulation.getNonConstBodies(), selectionManager);
+
+            if(event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+        }
+
 
         simulation.update(Constants::TIMESTEP);
-        renderer.draw(simulation.getBodies(), camera);
+        uiManager.update(dt);
+
+        renderer.drawWorld(simulation.getBodies(), camera);
+        renderer.drawUI(uiManager);
+
+        window.display();
     }
 
     return 0;

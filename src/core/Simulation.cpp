@@ -102,14 +102,41 @@ Simulation::Simulation()
 
 void Simulation::update(double dt)
 {
+    // --- Velocity Verlet Integration ---
+
+    // Step 1: Update all body positions by a full step.
+    // This uses the velocity and acceleration from the *previous* frame.
+    for(auto &body : bodies) {
+        body.position += body.velocity * dt + (body.acceleration * 0.5 * dt * dt);
+    }
+
+    // Step 2: Store the "old" accelerations before we recalculate them.
+    std::vector<Vector2D> oldAccelerations;
+    oldAccelerations.reserve(bodies.size());
+    for(const auto &body : bodies) {
+        oldAccelerations.push_back(body.acceleration);
+    }
+
+    // Step 3: Calculate forces at the NEW positions.
+    // This updates each body's "acceleration" member to the new value.
     physicsEngine.calculateForces(bodies);
 
-    for(auto &body : bodies) {
-        body.update(dt);
-        // std::cout << "Body position: " << body.position.x << ", " << body.position.y << std::endl;
+    // Step 4: Update all body velocities using the AVERAGE of the old and new accelerations.
+    // This is the key step that makes the simulation stable.
+    for(size_t i = 0; i < bodies.size(); ++i) {
+        bodies[i].velocity += (oldAccelerations[i] + bodies[i].acceleration) * 0.5 * dt;
     }
+
+    
+    // for(auto &body : bodies) {
+    //     body.getTrail().addVertex(body.position);
+    // }
 }
 
 const std::vector<Body>& Simulation::getBodies() const {
+    return bodies;
+}
+
+std::vector<Body>& Simulation::getNonConstBodies() {
     return bodies;
 }
