@@ -89,6 +89,26 @@ Simulation::Simulation()
     neptune.velocity = -neptuneVelocity;
     neptune.radius = 0.4;
 
+    // there is a slight problem, since i initialize the sun with 0 velocity and all planets at their perihilion with tangential 
+    // "upward" velocity , this causes the system to have a non zero momentum in -y direction at start. This results in the sun 
+    // itself drifting "upwards"
+    // to fix it, i'm adding a counter velocity in the opposite direction such that the net momentum of the system is 0.
+
+    Vector2D totalMomentum = Vector2D::getZeroVector();
+    totalMomentum += mercury.velocity * mercury.mass;
+    totalMomentum += venus.velocity * venus.mass;
+    totalMomentum += earth.velocity * earth.mass;
+    totalMomentum += mars.velocity * mars.mass;
+    totalMomentum += jupiter.velocity * jupiter.mass;
+    totalMomentum += saturn.velocity * saturn.mass;
+    totalMomentum += uranus.velocity * uranus.mass;
+    totalMomentum += neptune.velocity * neptune.mass;
+
+    Vector2D sunInitialVelocity = -totalMomentum / SUN_MASS;
+    sun.velocity = sunInitialVelocity;
+
+    // fixed
+
     bodies.push_back(sun);
     bodies.push_back(mercury);
     bodies.push_back(venus);
