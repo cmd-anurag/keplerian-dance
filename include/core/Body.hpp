@@ -38,5 +38,6 @@ class Body {
         // utiliy.
         double kineticEnergy() const;
         double potentialEnergy(const Body& other) const;
+        double angularMomentum(const Body& other) const;
         bool isInView(const sf::View &view) const;
 };

@@ -75,6 +75,12 @@ double Body::potentialEnergy(const Body& other) const
     return -Constants::G * mass * other.mass / distance;
 }
 
+double Body::angularMomentum(const Body &other) const
+{
+    Vector2D r = position - other.position;
+    double L = -mass * r.crossProduct(velocity);
+    return L;
+}
 bool Body::isInView(const sf::View &view) const
 {
     sf::Vector2f center = view.getCenter();
