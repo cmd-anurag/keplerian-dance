@@ -3,7 +3,7 @@
 
 Renderer::Renderer(sf::RenderWindow &window) : window(window) {};
 
-void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera)
+void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera, SelectionManager& selectionManager)
 {
     float pixelsPerWorldUnit = camera.getScale() * camera.getZoom();
 
@@ -15,11 +15,16 @@ void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera)
     window.setView(view);
 
     window.clear();
+    
+    if(selectionManager.hasSelection())
+    {
+        Body* selectedBody = selectionManager.getSelected();
+        selectedBody->getTrail().draw(window);
+    }
+
     for(const auto &body : bodies)
     {
-        // if(body.name == "Venus")
         // body.getTrail().draw(window);
-
         // view culling only for planets
         if(!body.isInView(view)) continue;
 
@@ -33,8 +38,6 @@ void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera)
         else {
             shape.setFillColor(sf::Color::Magenta); // missing textures
         }
-
-        
         window.draw(shape);
     }
 

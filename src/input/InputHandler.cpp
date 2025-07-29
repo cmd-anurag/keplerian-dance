@@ -71,9 +71,15 @@ void InputHandler::handleEvent(const sf::Event &event, sf::RenderWindow &window,
             double dy = body.position.y - worldPos.y;
             if(dx * dx + dy * dy < body.radius * body.radius)
             {
-                // std::cout << "Clicked on " << body.name << "\n";
                 selectionManager.setSelected(&body);
+                // looks ugly, maybe if i implement lerping
+                // camera.setCenter(body.position);
+                // camera.setZoom(3);
                 break;
+            }
+            else
+            {
+                selectionManager.clearSelection();
             }
         }
     }

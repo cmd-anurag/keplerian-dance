@@ -39,7 +39,7 @@ int main()
         while(window.pollEvent(event))
         {
             uiManager.handleEvent(event, window);
-            inputHandler.handleEvent(event, window, camera, simulation.getNonConstBodies(), selectionManager);
+            inputHandler.handleEvent(event, window, camera, simulation.getBodies(), selectionManager);
 
             if(event.type == sf::Event::Closed)
             {
@@ -51,7 +51,7 @@ int main()
         simulation.update(Constants::TIMESTEP);
         uiManager.update(dt);
 
-        renderer.drawWorld(simulation.getBodies(), camera);
+        renderer.drawWorld(simulation.getBodies(), camera, selectionManager);
         renderer.drawUI(uiManager);
 
         window.display();

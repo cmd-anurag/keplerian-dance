@@ -2,10 +2,22 @@
 
 void OrbitTrail::addVertex(const Vector2D &position)
 {
-    sf::Vertex vertex(position.toSFMLVector());
-    trail[currentWriteIndex++] = vertex;
-    validCount = std::min(validCount + 1, MAX_BUFFER_SIZE);
-    if(currentWriteIndex >= MAX_BUFFER_SIZE) currentWriteIndex = 0;
+    sf::Vector2f currentPosition = position.toSFMLVector();
+
+    float dx = currentPosition.x - lastVertexPosition.x;
+    float dy = currentPosition.y - lastVertexPosition.y;
+    float distanceSquared = dx * dx + dy * dy;
+
+
+    if(distanceSquared > minDistanceSq)
+    {
+        sf::Vertex vertex(currentPosition, sf::Color::White);
+        trail[currentWriteIndex++] = vertex;
+        validCount = std::min(validCount + 1, MAX_BUFFER_SIZE);
+        if(currentWriteIndex >= MAX_BUFFER_SIZE) currentWriteIndex = 0;
+        lastVertexPosition = currentPosition;
+    }
+
 }
 
 void OrbitTrail::draw(sf::RenderTarget &target) const
@@ -24,4 +36,8 @@ void OrbitTrail::draw(sf::RenderTarget &target) const
         // part 2 - draw from start to newest
         target.draw(trail, currentWriteIndex - 1, sf::LineStrip);
     }
+}
+
+void OrbitTrail::setMinDistance(float minDistance) {
+    minDistanceSq = minDistance*minDistance;
 }

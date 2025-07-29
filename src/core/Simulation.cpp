@@ -10,7 +10,7 @@ Simulation::Simulation()
     // NOTE - Radii for each planets are for visual clarity only and do not reflect their true size, (it would be really hard to see)
 
     Body sun;
-    sun.name = "Sol";
+    sun.name = "Sun";
     sun.texture = &assetManager.getTexture("../assets/sprites/sun.png");
     sun.mass = SUN_MASS;
     sun.velocity = {0,0};
@@ -25,6 +25,7 @@ Simulation::Simulation()
     mercury.position = mercuryPosition;
     mercury.velocity = -mercuryVelocity;
     mercury.radius = 0.04;
+    mercury.getTrail().setMinDistance(MERCURY_SEMI_MAJOR_AXIS * 0.01f);
 
     Body venus;
     venus.name = "Venus";
@@ -34,15 +35,17 @@ Simulation::Simulation()
     venus.position = venusPosition;
     venus.velocity = -venusVelocity;
     venus.radius = 0.06;
+    venus.getTrail().setMinDistance(VENUS_SEMI_MAJOR_AXIS * 0.01f);
 
     Body earth;
-    earth.name = "Terra";
+    earth.name = "Earth";
     earth.texture = &assetManager.getTexture("../assets/sprites/earth.png");
     earth.mass = EARTH_MASS;
     auto [earthPosition, earthVelocity] = Utils::calculateOrbitalVelocity(EARTH_SEMI_MAJOR_AXIS, EARTH_ECCENTRICITY);
     earth.position = earthPosition;
     earth.velocity = -earthVelocity;
     earth.radius = 0.07;
+    earth.getTrail().setMinDistance(EARTH_SEMI_MAJOR_AXIS * 0.01f);
 
     Body mars;
     mars.name = "Mars";
@@ -52,6 +55,7 @@ Simulation::Simulation()
     mars.position = marsPosition;
     mars.velocity = -marsVelocity;
     mars.radius = 0.06;
+    mars.getTrail().setMinDistance(MARS_SEMI_MAJOR_AXIS * 0.01f);
 
     Body jupiter;
     jupiter.name = "Jupiter";
@@ -61,6 +65,7 @@ Simulation::Simulation()
     jupiter.position = jupiterPosition;
     jupiter.velocity = -jupiterVelocity;
     jupiter.radius = 0.3;
+    jupiter.getTrail().setMinDistance(JUPITER_SEMI_MAJOR_AXIS * 0.01f);
 
     Body saturn;
     saturn.name = "Saturn";
@@ -70,6 +75,7 @@ Simulation::Simulation()
     saturn.position = saturnPosition;
     saturn.velocity = -saturnVelocity;
     saturn.radius = 0.6;
+    saturn.getTrail().setMinDistance(SATURN_SEMI_MAJOR_AXIS * 0.01f);
 
     Body uranus;
     uranus.name = "Uranus";
@@ -79,6 +85,7 @@ Simulation::Simulation()
     uranus.position = uranusPosition;
     uranus.velocity = -uranusVelocity;
     uranus.radius = 0.4;
+    uranus.getTrail().setMinDistance(URANUS_SEMI_MAJOR_AXIS * 0.01f);
 
     Body neptune;
     neptune.name = "Neptune";
@@ -88,6 +95,7 @@ Simulation::Simulation()
     neptune.position = neptunePosition;
     neptune.velocity = -neptuneVelocity;
     neptune.radius = 0.4;
+    neptune.getTrail().setMinDistance(NEPTUNE_SEMI_MAJOR_AXIS * 0.01f);
 
     // there is a slight problem, since i initialize the sun with 0 velocity and all planets at their perihilion with tangential 
     // "upward" velocity , this causes the system to have a non zero momentum in -y direction at start. This results in the sun 
@@ -124,39 +132,27 @@ void Simulation::update(double dt)
 {
     // --- Velocity Verlet Integration ---
 
-    // Step 1: Update all body positions by a full step.
-    // This uses the velocity and acceleration from the *previous* frame.
     for(auto &body : bodies) {
         body.position += body.velocity * dt + (body.acceleration * 0.5 * dt * dt);
     }
-
-    // Step 2: Store the "old" accelerations before we recalculate them.
     std::vector<Vector2D> oldAccelerations;
     oldAccelerations.reserve(bodies.size());
     for(const auto &body : bodies) {
         oldAccelerations.push_back(body.acceleration);
     }
-
-    // Step 3: Calculate forces at the NEW positions.
-    // This updates each body's "acceleration" member to the new value.
     physicsEngine.calculateForces(bodies);
-
-    // Step 4: Update all body velocities using the AVERAGE of the old and new accelerations.
-    // This is the key step that makes the simulation stable.
     for(size_t i = 0; i < bodies.size(); ++i) {
         bodies[i].velocity += (oldAccelerations[i] + bodies[i].acceleration) * 0.5 * dt;
     }
 
-    
-    // for(auto &body : bodies) {
-    //     body.getTrail().addVertex(body.position);
-    // }
+    for(auto &body : bodies) {
+        body.getTrail().addVertex(body.position);
+    }
 }
 
 const std::vector<Body>& Simulation::getBodies() const {
     return bodies;
 }
-
-std::vector<Body>& Simulation::getNonConstBodies() {
+std::vector<Body>& Simulation::getBodies() {
     return bodies;
 }
