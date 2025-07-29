@@ -17,6 +17,7 @@ class Body {
         double radius;
         
         std::string name;
+        std::string description;
         sf::Texture* texture = nullptr;
 
         Body();

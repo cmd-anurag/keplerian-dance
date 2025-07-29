@@ -1,9 +1,9 @@
 #include "ui/Label.hpp"
 #include <iostream>
 
-Label::Label(const sf::Vector2f &position, const std::string &content, unsigned int characterSize)
+Label::Label(const sf::Vector2f &position, const std::string &content, unsigned int characterSize, const std::string &fontname)
 {
-    if(!font.loadFromFile("../assets/fonts/Gugi-Regular.ttf"))
+    if(!font.loadFromFile("../assets/fonts/"+fontname))
     {
         std::cerr << "Unable to load font for label" << std::endl;
     }
