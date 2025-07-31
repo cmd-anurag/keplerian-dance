@@ -18,12 +18,15 @@ class Body {
         double visualRadius;
         double actualRadius;
         double semiMajorAxis;
+        double eccentricity;
         double orbitalPeriod; 
         double rotationalPeriod;// since calculating them in a 2d sim is meaningless , these values are hardcoded in earth hours and respresent sidereal day
         double escapeVelocity;
         double gravityAtSurface;
         int surfaceTemperature;
         int moonCount;
+        int orbitsCompleted = 0;
+        float phaseAngle;
 
         std::string name;
         std::string description;

@@ -28,29 +28,41 @@ int main()
     auto sidebar = std::make_unique<PlanetInfoSidebar>(sf::Vector2f(10.f, 10.f), sf::Vector2f(350.f, 1000.f), selectionManager, sun);
     uiManager.addElement(std::move(sidebar));
 
-
+    // Background Image
+    sf::Texture backgroundTexture;
+    if(!backgroundTexture.loadFromFile("../assets/sprites/bg.png"))
+    {
+        std::cerr << "Unable to load the bg image\n";
+        return 1;
+    }
+    sf::Sprite background(backgroundTexture);
+    
     sf::Clock simulClock;
-
+    
     while(window.isOpen())
     {
+        window.clear();
+        window.setView(window.getDefaultView());
+        window.draw(background);
         sf::Time dt = simulClock.restart();
-
+        
         sf::Event event;
         while(window.pollEvent(event))
         {
             uiManager.handleEvent(event, window);
             inputHandler.handleEvent(event, window, camera, simulation.getBodies(), selectionManager);
-
+            
             if(event.type == sf::Event::Closed)
             {
                 window.close();
             }
         }
-
-
+        
+        
         simulation.update(Constants::TIMESTEP);
         uiManager.update(dt);
-
+        
+        
         renderer.drawWorld(simulation.getBodies(), camera, selectionManager);
         renderer.drawUI(uiManager);
 

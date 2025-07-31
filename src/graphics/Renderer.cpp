@@ -13,8 +13,6 @@ void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera, Select
         static_cast<float>(window.getSize().y) / pixelsPerWorldUnit
     );
     window.setView(view);
-
-    window.clear();
     
     if(selectionManager.hasSelection())
     {
