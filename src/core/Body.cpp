@@ -7,7 +7,7 @@ Body::Body()
     velocity = Vector2D::getZeroVector();
     acceleration = Vector2D::getZeroVector();
     mass = 1;
-    radius = 1;
+    visualRadius = 1;
     name = "Default Body";
 }
 
@@ -17,7 +17,7 @@ Body::Body(Vector2D Position, Vector2D Velocity, Vector2D Acceleration, double M
     velocity = Velocity;
     acceleration = Acceleration;
     mass = Mass;
-    radius = Radius;
+    visualRadius = Radius;
     name = Name;
 }
 
@@ -52,7 +52,7 @@ const OrbitTrail& Body::getTrail() const
 bool Body::isColliding(const Body &other) const
 {
     double squaredDistance = Vector2D::getSquaredDistanceBetween(position, other.position);
-    double radiusSum = radius + other.radius;
+    double radiusSum = visualRadius + other.visualRadius;
     
     return squaredDistance < radiusSum * radiusSum;
 }
@@ -81,6 +81,19 @@ double Body::angularMomentum(const Body &other) const
     double L = -mass * r.crossProduct(velocity);
     return L;
 }
+double Body::calculateOrbitalPeriod(const Body &other) const
+{
+    return 2 * M_PI * sqrt(semiMajorAxis * semiMajorAxis * semiMajorAxis / Constants::G * other.mass);
+}
+
+double Body::calculateGravityAtSurface() const
+{
+    return Constants::G * mass / (actualRadius * actualRadius);
+}
+double Body::calculateEscapeVelocity() const
+{
+    return sqrt(2 * Constants::G * mass / actualRadius);
+}
 bool Body::isInView(const sf::View &view) const
 {
     sf::Vector2f center = view.getCenter();
@@ -93,7 +106,7 @@ bool Body::isInView(const sf::View &view) const
 
     float x = static_cast<float>(position.x);
     float y = static_cast<float>(position.y);
-    float r = static_cast<float>(radius);
+    float r = static_cast<float>(visualRadius);
 
     return (x + r > left) && (x - r < right) && (y + r > up) && (y - r < down);
 }

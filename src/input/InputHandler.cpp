@@ -69,7 +69,7 @@ void InputHandler::handleEvent(const sf::Event &event, sf::RenderWindow &window,
         {
             double dx = body.position.x - worldPos.x;
             double dy = body.position.y - worldPos.y;
-            if(dx * dx + dy * dy < body.radius * body.radius)
+            if(dx * dx + dy * dy < body.visualRadius * body.visualRadius)
             {
                 selectionManager.setSelected(&body);
                 // looks ugly, maybe if i implement lerping

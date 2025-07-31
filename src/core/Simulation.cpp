@@ -7,8 +7,6 @@ Simulation::Simulation()
 {
     using namespace Constants;
 
-    // NOTE - Radii for each planets are for visual clarity only and do not reflect their true size, (it would be really hard to see)
-
     Body sun;
     sun.name = "Sun";
     sun.description = "The blazing heart of the solar system.\nIts immense gravity binds every orbiting body,\nand its energy fuels the rhythms of planets and life.\nA sphere of fusion, burning for billions of years.";
@@ -16,7 +14,9 @@ Simulation::Simulation()
     sun.mass = SUN_MASS;
     sun.velocity = {0,0};
     sun.position = {0,0};
-    sun.radius = 0.15;
+    sun.visualRadius = 0.15;
+    sun.actualRadius = SUN_RADIUS;
+    sun.rotationalPeriod = 587;
 
     Body mercury;
     mercury.name = "Mercury";
@@ -26,8 +26,11 @@ Simulation::Simulation()
     auto [mercuryPosition, mercuryVelocity] = Utils::calculateOrbitalVelocity(MERCURY_SEMI_MAJOR_AXIS, MERCURY_ECCENTRICITY);
     mercury.position = mercuryPosition;
     mercury.velocity = -mercuryVelocity;
-    mercury.radius = 0.04;
-    mercury.getTrail().setMinDistance(MERCURY_SEMI_MAJOR_AXIS * 0.01f);
+    mercury.actualRadius = MERCURY_RADIUS;
+    mercury.visualRadius = 0.04;
+    mercury.semiMajorAxis = MERCURY_SEMI_MAJOR_AXIS;
+    mercury.getTrail().setMinDistance(mercury.semiMajorAxis * 0.01f);
+    mercury.rotationalPeriod = 1407.5;
 
     Body venus;
     venus.name = "Venus";
@@ -37,8 +40,11 @@ Simulation::Simulation()
     auto [venusPosition, venusVelocity] = Utils::calculateOrbitalVelocity(VENUS_SEMI_MAJOR_AXIS, VENUS_ECCENTRICITY);
     venus.position = venusPosition;
     venus.velocity = -venusVelocity;
-    venus.radius = 0.06;
+    venus.actualRadius = VENUS_RADIUS;
+    venus.visualRadius = 0.06;
+    venus.semiMajorAxis = VENUS_SEMI_MAJOR_AXIS;
     venus.getTrail().setMinDistance(VENUS_SEMI_MAJOR_AXIS * 0.01f);
+    venus.rotationalPeriod = -5832.5; // a negative sign means retrograde rotation
 
     Body earth;
     earth.name = "Earth";
@@ -48,8 +54,11 @@ Simulation::Simulation()
     auto [earthPosition, earthVelocity] = Utils::calculateOrbitalVelocity(EARTH_SEMI_MAJOR_AXIS, EARTH_ECCENTRICITY);
     earth.position = earthPosition;
     earth.velocity = -earthVelocity;
-    earth.radius = 0.07;
+    earth.actualRadius = EARTH_RADIUS;
+    earth.visualRadius = 0.07;
+    earth.semiMajorAxis = EARTH_SEMI_MAJOR_AXIS;
     earth.getTrail().setMinDistance(EARTH_SEMI_MAJOR_AXIS * 0.01f);
+    earth.rotationalPeriod = 24;
 
     Body mars;
     mars.name = "Mars";
@@ -59,8 +68,11 @@ Simulation::Simulation()
     auto [marsPosition, marsVelocity] = Utils::calculateOrbitalVelocity(MARS_SEMI_MAJOR_AXIS, MARS_ECCENTRICITY);
     mars.position = marsPosition;
     mars.velocity = -marsVelocity;
-    mars.radius = 0.06;
+    mars.actualRadius = MARS_RADIUS;
+    mars.visualRadius = 0.06;
+    mars.semiMajorAxis = MARS_SEMI_MAJOR_AXIS;
     mars.getTrail().setMinDistance(MARS_SEMI_MAJOR_AXIS * 0.01f);
+    mars.rotationalPeriod = 24.6;
 
     Body jupiter;
     jupiter.name = "Jupiter";
@@ -70,8 +82,11 @@ Simulation::Simulation()
     auto [jupiterPosition, jupiterVelocity] = Utils::calculateOrbitalVelocity(JUPITER_SEMI_MAJOR_AXIS, JUPITER_ECCENTRICITY);
     jupiter.position = jupiterPosition;
     jupiter.velocity = -jupiterVelocity;
-    jupiter.radius = 0.3;
+    jupiter.actualRadius = JUPITER_RADIUS;
+    jupiter.visualRadius = 0.3;
+    jupiter.semiMajorAxis = JUPITER_SEMI_MAJOR_AXIS;
     jupiter.getTrail().setMinDistance(JUPITER_SEMI_MAJOR_AXIS * 0.01f);
+    jupiter.rotationalPeriod = 9.9;
 
     Body saturn;
     saturn.name = "Saturn";
@@ -81,8 +96,11 @@ Simulation::Simulation()
     auto [saturnPosition, saturnVelocity] = Utils::calculateOrbitalVelocity(SATURN_SEMI_MAJOR_AXIS, SATURN_ECCENTRICITY);
     saturn.position = saturnPosition;
     saturn.velocity = -saturnVelocity;
-    saturn.radius = 0.6;
+    saturn.actualRadius = SATURN_RADIUS;
+    saturn.visualRadius = 0.6;
+    saturn.semiMajorAxis = SATURN_SEMI_MAJOR_AXIS;
     saturn.getTrail().setMinDistance(SATURN_SEMI_MAJOR_AXIS * 0.01f);
+    saturn.rotationalPeriod = 10.7;
 
     Body uranus;
     uranus.name = "Uranus";
@@ -92,24 +110,25 @@ Simulation::Simulation()
     auto [uranusPosition, uranusVelocity] = Utils::calculateOrbitalVelocity(URANUS_SEMI_MAJOR_AXIS, URANUS_ECCENTRICITY);
     uranus.position = uranusPosition;
     uranus.velocity = -uranusVelocity;
-    uranus.radius = 0.4;
+    uranus.actualRadius = URANUS_RADIUS;
+    uranus.visualRadius = 0.4;
+    uranus.semiMajorAxis = URANUS_SEMI_MAJOR_AXIS;
     uranus.getTrail().setMinDistance(URANUS_SEMI_MAJOR_AXIS * 0.01f);
+    uranus.rotationalPeriod = -17.2;
 
     Body neptune;
     neptune.name = "Neptune";
-    neptune.description = "Far beyond the warmth of the Sun it circles,\nits deep blue atmosphere whipped by supersonic winds.\nDark storms drift across a sea of cold gas,\nand a faint glow hints at heat from within its core.";
+    neptune.description = "Far beyond the warmth of the Sun it circles,\na deep blue world lashed by supersonic winds, and a faint \nglow that hints at heat from within its core.\nSince its discovery in 1846, it has completed only one orbit around the sun";
     neptune.texture = &assetManager.getTexture("../assets/sprites/neptune.png");
     neptune.mass = NEPTUNE_MASS;
     auto [neptunePosition, neptuneVelocity] = Utils::calculateOrbitalVelocity(NEPTUNE_SEMI_MAJOR_AXIS, NEPTUNE_ECCENTRICITY);
     neptune.position = neptunePosition;
     neptune.velocity = -neptuneVelocity;
-    neptune.radius = 0.4;
+    neptune.actualRadius = NEPTUNE_RADIUS;
+    neptune.visualRadius = 0.4;
+    neptune.semiMajorAxis = NEPTUNE_SEMI_MAJOR_AXIS;
     neptune.getTrail().setMinDistance(NEPTUNE_SEMI_MAJOR_AXIS * 0.01f);
-
-    // there is a slight problem, since i initialize the sun with 0 velocity and all planets at their perihilion with tangential 
-    // "upward" velocity , this causes the system to have a non zero momentum in -y direction at start. This results in the sun 
-    // itself drifting "upwards"
-    // to fix it, i'm adding a counter velocity in the opposite direction such that the net momentum of the system is 0.
+    neptune.rotationalPeriod = 16.1;
 
     Vector2D totalMomentum = Vector2D::getZeroVector();
     totalMomentum += mercury.velocity * mercury.mass;
@@ -124,7 +143,6 @@ Simulation::Simulation()
     Vector2D sunInitialVelocity = -totalMomentum / SUN_MASS;
     sun.velocity = sunInitialVelocity;
 
-    // fixed
 
     bodies.push_back(sun);
     bodies.push_back(mercury);

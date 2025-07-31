@@ -28,8 +28,8 @@ void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera, Select
         // view culling only for planets
         if(!body.isInView(view)) continue;
 
-        sf::CircleShape shape(body.radius);
-        shape.setOrigin(body.radius, body.radius);
+        sf::CircleShape shape(body.visualRadius);
+        shape.setOrigin(body.visualRadius, body.visualRadius);
         shape.setPosition(body.position.x, body.position.y);
 
         if(body.texture) {
