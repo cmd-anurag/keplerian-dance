@@ -39,8 +39,6 @@ void Renderer::drawWorld(const std::vector<Body> &bodies, Camera &camera, Select
         window.draw(shape);
     }
 
-    window.setView(window.getDefaultView());
-
 }
 void Renderer::drawUI(const UIManager &uiManager)
 {
