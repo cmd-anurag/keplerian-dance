@@ -1,6 +1,6 @@
 #include "core/Simulation.hpp"
 #include "core/Constants.hpp"
-#include "math/Utils.hpp"
+#include "utils/Utils.hpp"
 #include <iostream>
 
 Simulation::Simulation()

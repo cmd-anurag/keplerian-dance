@@ -47,7 +47,6 @@ int main()
     float delayBeforeFade = 1.0f;
     float totalLoadingTime = 7.0f;
 
-    // --- Simulation Objects (initialized once) ---
     Simulation simulation;
     Camera camera;
     Renderer renderer(window);
@@ -80,7 +79,6 @@ int main()
                 window.close();
             }
 
-            // --- State-Specific Event Handling ---
             switch (currentState)
             {
                 case GameState::Loading:
@@ -95,8 +93,6 @@ int main()
                     break;
             }
         }
-
-        // --- State-Specific Updates ---
         switch (currentState)
         {
             case GameState::Loading:
@@ -118,8 +114,6 @@ int main()
                 break;
         }
 
-
-        // --- State-Specific Drawing ---
         window.clear();
         switch (currentState)
         {

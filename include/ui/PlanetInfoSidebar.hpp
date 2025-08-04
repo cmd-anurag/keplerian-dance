@@ -20,4 +20,9 @@ class PlanetInfoSidebar : public UIElement {
         std::vector<std::unique_ptr<Label>> labels;
 
         void setupLabels();
+
+        void updateOrbitalInfo(const Body *, double sunDistance, double orbitalVelocity);
+        void updateGeneralInfo(const Body *);
+        void updatePhysicalInfo(const Body *, double sunDistance, double orbitalVelocity);
+        void updateEnergyInfo(const Body *);
 };
