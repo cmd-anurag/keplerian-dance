@@ -1,5 +1,6 @@
 #include "ui/PlanetInfoSidebar.hpp"
 #include "core/Body.hpp"
+#include "utils/Format.hpp"
 
 PlanetInfoSidebar::PlanetInfoSidebar(const sf::Vector2f &position, const sf::Vector2f &size, const SelectionManager &selectionManager, const Body* sun) : selectionManager(selectionManager), backgroundPanel(position, size), sun(sun) {
     setupLabels();
@@ -67,11 +68,11 @@ void PlanetInfoSidebar::setupLabels()
 
 void PlanetInfoSidebar::updateOrbitalInfo(const Body *selectedBody, double sunDistance, double orbitalVelocity)
 {
-        labels[2]->setText("Position: " + std::to_string(selectedBody->position.x) + ", " + std::to_string(selectedBody->position.y));
-        labels[3]->setText("Distance from the Sun: " + std::to_string(sunDistance));
-        labels[4]->setText("Orbital Speed: " + std::to_string(orbitalVelocity));
-        labels[5]->setText("Orbital Period: " + std::to_string(selectedBody->calculateOrbitalPeriod(*sun)));
-        labels[6]->setText("Orbital Phase: " + std::to_string(selectedBody->phaseAngle));
+        labels[2]->setText("Position: " + std::to_string(selectedBody->position.x) + " AU, " + std::to_string(selectedBody->position.y) + " AU");
+        labels[3]->setText("Distance from the Sun: " + Format::toRealDistance(sunDistance));
+        labels[4]->setText("Orbital Speed: " + Format::toRealVelocity(orbitalVelocity));
+        labels[5]->setText("Orbital Period: " + Format::toRealTime(selectedBody->calculateOrbitalPeriod(*sun)));
+        labels[6]->setText("Orbital Phase: " + std::to_string(selectedBody->phaseAngle) + " deg");
         labels[7]->setText("Orbits Completed: " + std::to_string(selectedBody->orbitsCompleted));
         labels[8]->setText("Orbital Eccentricity: " + std::to_string(selectedBody->eccentricity));
         labels[9]->setText("Angular Momentum: " + std::to_string(selectedBody->angularMomentum(*sun)));
@@ -87,14 +88,14 @@ void PlanetInfoSidebar::updateGeneralInfo(const Body *selectedBody)
 
 void PlanetInfoSidebar::updatePhysicalInfo(const Body *selectedBody, double sunDistance, double orbitalVelocity)
 {
-    labels[10]->setText("Acceleration: " + std::to_string(selectedBody->acceleration.magnitude()));
+    labels[10]->setText("Acceleration: " + Format::toRealAcceleration(selectedBody->acceleration.magnitude()));
     labels[11]->setText("Centripetal Force: " + std::to_string((selectedBody->mass * orbitalVelocity * orbitalVelocity) / sunDistance));
 
-    labels[12]->setText("Mass: " + std::to_string(selectedBody->mass));
-    labels[13]->setText("Surface Temperature: " + std::to_string(selectedBody->surfaceTemperature));
+    labels[12]->setText("Mass: " + Format::toRealMass(selectedBody->mass));
+    labels[13]->setText("Surface Temperature: " + std::to_string(selectedBody->surfaceTemperature) + " celsius");
     labels[14]->setText("Rotational Period: " + std::to_string(selectedBody->rotationalPeriod) + " earth hours");
     labels[15]->setText("Gravity at Surface: " + std::to_string(selectedBody->calculateGravityAtSurface()));
-    labels[16]->setText("Escape Velocity: " + std::to_string(selectedBody->calculateEscapeVelocity()));
+    labels[16]->setText("Escape Velocity: " + Format::toRealVelocity(selectedBody->calculateEscapeVelocity()));
 }
 
 void PlanetInfoSidebar::updateEnergyInfo(const Body *selectedBody)

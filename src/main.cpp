@@ -109,7 +109,7 @@ int main()
                 }
                 break;
             case GameState::Running:
-                simulation.update(Constants::TIMESTEP);
+                for(size_t i = 0; i < Constants::STEPS_PER_FRAME; ++i) simulation.update(Constants::TIMESTEP);
                 uiManager.update(dt);
                 break;
         }
